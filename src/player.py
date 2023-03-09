@@ -1,10 +1,16 @@
 import numpy as np
+from src.algorithms import MinimaxKalaha, RandomAlgorithm
 
 class KalahaPlayer:
-    def __init__(self, player_num, name, is_human, ai_method="random"):
+    def __init__(self, player_num, name, is_human, ai_method="random", minimax_depth=3):
         self.name = name
         self.is_human = is_human
-        self.ai_method = ai_method
+        if ai_method == "random":
+            self.ai_method = RandomAlgorithm()
+        elif ai_method == "minimax":
+            self.ai_method = MinimaxKalaha(minimax_depth)
+        else:
+            raise ValueError("Invalid AI method.")
         self.player_num = player_num
 
     def select_move(self, board):
@@ -20,16 +26,16 @@ class KalahaPlayer:
             while True:
                 cup = input(f"{self.name}, select a cup to move (valid cups: {print_cups}): ")
                 try:
-                    cup = board.num_cups - int(cup)
+                    if self.player_num == 1:
+                        cup = board.num_cups - int(cup)
+                    else:
+                        cup = int(cup) - 1
                     if cup not in valid_cups:
                         raise ValueError
                     return cup
                 except ValueError:
                     print("Invalid input, please enter a valid cup number.")
         else:
-            valid_cups = board.get_valid_moves(self.player_num)
-            # Select a random valid move for the AI player
-            if self.ai_method == "random":
-                cup = np.random.choice(valid_cups)
-
-            return cup
+            # Use the AI method to select a move
+            move = self.ai_method.select_move(board)
+            return move

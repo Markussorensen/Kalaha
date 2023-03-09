@@ -4,9 +4,9 @@ from src.board import KalahBoard
 from src.player import KalahaPlayer
 
 class KalahaGameNormal:
-    def __init__(self, num_cups=6, num_stones=4, p1_is_human=False, p2_is_human=False):
+    def __init__(self, player1, player2, num_cups=6, num_stones=4):
         self.board = KalahBoard(num_cups=num_cups, num_stones=num_stones)
-        self.players = {0:KalahaPlayer(0,"Player 1", p1_is_human), 1:KalahaPlayer(1,"Player 2", p2_is_human)}
+        self.players = {0:player1, 1:player2}
         self.current_player = np.random.randint(2)
 
     def play(self):
@@ -14,6 +14,7 @@ class KalahaGameNormal:
         while not self.board.is_game_over():
             print("-"*50)
             print(self.board)
+            self.board.player_turn = self.current_player
             player = self.players[self.current_player]
             print(f"It's {player.name}'s turn.")
             cup = player.select_move(self.board)

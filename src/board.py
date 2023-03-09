@@ -21,6 +21,7 @@ class KalahBoard:
         self.num_cups = num_cups
         self.num_stones = num_stones
         self.board = [[num_stones for _ in range(num_cups)] for _ in range(2)]
+        self.player_turn = -1
         self.board[0].append(0) # Player 1 Kalaha
         self.board[1].append(0) # Player 2 Kalaha
 
@@ -116,6 +117,7 @@ class KalahBoard:
                 self.add_to_kalaha(player, num_stones + num_opposite_stones)
 
         # Now give the other player a turn
+        self.player_turn = 1 - player
         return 1 - player
 
     def is_game_over(self):

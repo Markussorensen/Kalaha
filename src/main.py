@@ -1,12 +1,11 @@
 from src.game import KalahaGameNormal
+from src.player import KalahaPlayer
 
 def main():
-    # Set up the game
-    p1_is_human = False
-    p2_is_human = True
-
     # Initialize the game
-    game = KalahaGameNormal(p1_is_human=p1_is_human, p2_is_human=p2_is_human)
+    player1 = KalahaPlayer(player_num=0, name="Player 1", is_human=False, ai_method="minimax", minimax_depth=10)
+    player2 = KalahaPlayer(player_num=1, name="Player 2", is_human=False, ai_method="minimax", minimax_depth=10)
+    game = KalahaGameNormal(player1=player1, player2=player2)
 
     # Start the game
     game.play()
