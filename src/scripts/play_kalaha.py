@@ -1,4 +1,5 @@
-from src.game import KalahaGameNormal
+from src.kalaha.game import KalahaGameNormal
+
 
 def main():
     # Set up the game

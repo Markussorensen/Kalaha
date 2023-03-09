@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class KalahaPlayer:
     def __init__(self, player_num, name, is_human, ai_method="random"):
         self.name = name
@@ -14,11 +15,13 @@ class KalahaPlayer:
             if self.player_num == 1:
                 print_cups = [board.num_cups - cup - 1 for cup in valid_cups]
                 print_cups = sorted(print_cups)
-                print_cups = [str(cup+1) for cup in print_cups]
+                print_cups = [str(cup + 1) for cup in print_cups]
             else:
-                print_cups = [str(cup+1) for cup in valid_cups]
+                print_cups = [str(cup + 1) for cup in valid_cups]
             while True:
-                cup = input(f"{self.name}, select a cup to move (valid cups: {print_cups}): ")
+                cup = input(
+                    f"{self.name}, select a cup to move (valid cups: {print_cups}): "
+                )
                 try:
                     cup = board.num_cups - int(cup)
                     if cup not in valid_cups:
