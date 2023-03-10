@@ -1,7 +1,9 @@
-import pygame
 import numpy as np
-from src.board import KalahBoard
-from src.player import KalahaPlayer
+import pygame
+
+from .board import KalahBoard
+from .player import KalahaPlayer
+
 
 class KalahaGameNormal:
     def __init__(self, player1, player2, num_cups=6, num_stones=4):
@@ -12,7 +14,7 @@ class KalahaGameNormal:
     def play(self):
         print("Starting game of Kalaha!")
         while not self.board.is_game_over():
-            print("-"*50)
+            print("-" * 50)
             print(self.board)
             self.board.player_turn = self.current_player
             player = self.players[self.current_player]
@@ -24,7 +26,7 @@ class KalahaGameNormal:
                 print_cup = cup + 1
             print(f"{player.name} selects cup {print_cup}.")
             self.current_player = self.board.make_move(player.player_num, cup)
-            print("-"*50)
+            print("-" * 50)
         print(self.board)
         self.print_winner()
 

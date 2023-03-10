@@ -15,6 +15,7 @@ KALAHA RULES:
     The other player moves all remaining seeds to their store, and the player with the most seeds in their store wins.
 """
 
+
 class KalahBoard:
     def __init__(self, num_cups=6, num_stones=4):
         # Initialize the board with the given number of cups and stones per cup
@@ -31,7 +32,11 @@ class KalahBoard:
         h = "Cup no:     " + " ".join(str(x) for x in range(1, self.num_cups + 1))
         p2 = "P2 Cups     "
         p2 += " ".join(str(x) for x in reversed(self.board[1][:-1]))
-        m = f"P2 Kalaha {self.board[1][-1]}" + " " * (len(p2) - 10) + f"{self.board[0][-1]} P1 Kalaha"
+        m = (
+            f"P2 Kalaha {self.board[1][-1]}"
+            + " " * (len(p2) - 10)
+            + f"{self.board[0][-1]} P1 Kalaha"
+        )
         p1 = "P1 Cups     "
         p1 += " ".join(str(x) for x in self.board[0][:-1])
         s += h + "\n" + p2 + "\n" + m + "\n" + p1 + "\n"
@@ -101,7 +106,7 @@ class KalahBoard:
             # Check if we landed in our Kalaha then the same player take another turn
             if next_cup == self.num_cups and player_side == player:
                 return player
-            
+
             # Check if we did not land in an empty cup, and pick up stones
             if self.get_num_stones(player_side, next_cup) > 1:
                 num_stones = self.remove_stones(player_side, next_cup)
@@ -131,5 +136,5 @@ class KalahBoard:
                 self.board[0][i] = 0
                 self.board[1][i] = 0
             return True
-        
+
         return False
