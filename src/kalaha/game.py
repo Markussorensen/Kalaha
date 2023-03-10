@@ -1,8 +1,8 @@
 import numpy as np
 import pygame
 
-from .board import KalahBoard
-from .player import KalahaPlayer
+from src.kalaha.board import KalahBoard
+from src.kalaha.player import KalahaPlayer
 
 
 class KalahaGameNormal:

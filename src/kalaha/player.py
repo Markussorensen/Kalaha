@@ -1,6 +1,5 @@
 import numpy as np
-from src.algorithms import MinimaxKalaha, RandomAlgorithm
-
+from src.kalaha.algorithms import MinimaxKalaha, RandomAlgorithm
 
 class KalahaPlayer:
     def __init__(self, player_num, name, is_human, ai_method="random", minimax_depth=3):
