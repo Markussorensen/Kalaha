@@ -6,7 +6,7 @@ class RandomAlgorithm:
     def select_move(self, board):
         # Select a move at random.
         valid_moves = board.get_valid_moves(board.player_turn)
-        return np.random.choice(valid_moves)
+        return np.random.choice(valid_moves), 1
 
 class MinimaxKalaha:
     def __init__(self, depth, alpha=float("-inf"), beta=float("inf"), heuristic="None"):
@@ -28,7 +28,7 @@ class MinimaxKalaha:
         # This is the difference between the number of stones in the Kalaha for the given player and the number of stones in the Kalaha for the opponent.
         return board.get_kalaha(player) - board.get_kalaha(1 - player)
 
-    def minimax(self, board, depth, player, alpha, beta, player_depth_turn, parent_idx):
+    def minimax(self, board, depth, player, alpha, beta, player_depth_turn, parent_idx, total_states_looked_at=[0]):
         #Perform the minimax algorithm.
         if depth == 0 or board.is_game_over():
             return self.get_score(board, player), None
@@ -52,6 +52,9 @@ class MinimaxKalaha:
             best_move = None
             all_prints = []
             for idx, move in enumerate(valid_moves):
+                #Adds 1 to total states looked at
+                total_states_looked_at[0] += 1
+
                 # Make a copy of the board
                 new_board = copy.deepcopy(board)
 
@@ -59,7 +62,7 @@ class MinimaxKalaha:
                 new_board.make_move(player_depth_turn, move)
 
                 # Get the score for the move
-                score, _ = self.minimax(new_board, depth-1, player, alpha, beta, new_board.player_turn, idx)
+                score, _ = self.minimax(new_board, depth-1, player, alpha, beta, new_board.player_turn, idx, total_states_looked_at)
                 all_prints.append(f"Depth: {depth}, Parent idx: {parent_idx}, Player: {player_depth_turn}, Move: {move}, Score: {score}")
 
                 # Check if the score is better than the best score
@@ -88,6 +91,9 @@ class MinimaxKalaha:
             best_move = None
             all_prints = []
             for idx, move in enumerate(valid_moves):
+                #Adds 1 to total states looked at
+                total_states_looked_at[0] += 1
+                
                 # Make a copy of the board
                 new_board = copy.deepcopy(board)
 
@@ -95,7 +101,7 @@ class MinimaxKalaha:
                 new_board.make_move(player_depth_turn, move)
 
                 # Get the score for the move
-                score, _ = self.minimax(new_board, depth-1, player, alpha, beta, new_board.player_turn, idx)
+                score, _ = self.minimax(new_board, depth-1, player, alpha, beta, new_board.player_turn, idx, total_states_looked_at)
                 all_prints.append(f"Depth: {depth}, Parent idx: {parent_idx}, Player: {player_depth_turn}, Move: {move}, Score: {score}")
 
                 # Check if the score is better than the best score
@@ -121,6 +127,7 @@ class MinimaxKalaha:
     def select_move(self, board):
         # Select a move using the minimax algorithm.
         # Get the best move
-        _, best_move = self.minimax(board, self.depth, board.player_turn, self.alpha, self.beta, board.player_turn, 0)
-        return best_move
+        total_states_looked_at = [0]
+        _, best_move = self.minimax(board, self.depth, board.player_turn, self.alpha, self.beta, board.player_turn, 0, total_states_looked_at)
+        return best_move, total_states_looked_at[0]
 
