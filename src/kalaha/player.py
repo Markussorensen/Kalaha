@@ -34,10 +34,10 @@ class KalahaPlayer:
                         cup = int(cup) - 1
                     if cup not in valid_cups:
                         raise ValueError
-                    return cup
+                    return cup, 1
                 except ValueError:
                     print("Invalid input, please enter a valid cup number.")
         else:
             # Use the AI method to select a move
-            move = self.ai_method.select_move(board)
-            return move
+            move, total_states_looked_at = self.ai_method.select_move(board)
+            return move, total_states_looked_at
