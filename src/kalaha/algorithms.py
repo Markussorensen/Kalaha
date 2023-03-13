@@ -1,5 +1,6 @@
 import copy
 import numpy as np
+from src.kalaha.heuristic import MaxStonesInPit, StonesInHouse, MovesEndInKalaha
 
 class RandomAlgorithm:
     def select_move(self, board):
@@ -8,11 +9,19 @@ class RandomAlgorithm:
         return np.random.choice(valid_moves)
 
 class MinimaxKalaha:
-    def __init__(self, depth, alpha=float("-inf"), beta=float("inf")):
+    def __init__(self, depth, alpha=float("-inf"), beta=float("inf"), heuristic="None"):
         #Initialize the search algorithm.
         self.depth = depth
         self.alpha = alpha
         self.beta = beta
+        if heuristic == "MaxStonesInPit":
+            self.heuristic = MaxStonesInPit
+        elif heuristic == "StonesInHouse":
+            self.heuristic = StonesInHouse
+        elif heuristic == "MovesEndInKalaha":
+            self.heuristic = MovesEndInKalaha
+        else:
+            self.heuristic = None
 
     def get_score(self, board, player):
         # Get the score for the given player. 
@@ -31,6 +40,10 @@ class MinimaxKalaha:
         if len(valid_moves) == 0:
             # If there are no valid moves, the game is over
             return self.get_score(board, player), None
+        
+        # If a heuristic is specified, use it to sort the valid moves
+        if self.heuristic is not None:
+            valid_moves = self.heuristic(board, player, valid_moves)
         
         # Check if we are maximizing or minimizing the score
         if player == board.player_turn:
@@ -104,7 +117,6 @@ class MinimaxKalaha:
             # print(f"Depth: {depth}, Parent idx: {parent_idx}, Player: {player_depth_turn}, Best Move: {best_move}, Best Score: {best_score}")
 
             return best_score, best_move
-    
     
     def select_move(self, board):
         # Select a move using the minimax algorithm.

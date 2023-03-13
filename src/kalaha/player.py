@@ -2,13 +2,13 @@ import numpy as np
 from src.kalaha.algorithms import MinimaxKalaha, RandomAlgorithm
 
 class KalahaPlayer:
-    def __init__(self, player_num, name, is_human, ai_method="random", minimax_depth=3):
+    def __init__(self, player_num, name, is_human, ai_method="random", minimax_depth=3, heuristic=None):
         self.name = name
         self.is_human = is_human
         if ai_method == "random":
             self.ai_method = RandomAlgorithm()
         elif ai_method == "minimax":
-            self.ai_method = MinimaxKalaha(minimax_depth)
+            self.ai_method = MinimaxKalaha(minimax_depth, heuristic=heuristic)
         else:
             raise ValueError("Invalid AI method.")
         self.player_num = player_num
