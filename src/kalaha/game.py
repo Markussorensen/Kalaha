@@ -1,6 +1,4 @@
 import numpy as np
-import pygame
-
 from src.kalaha.board import KalahBoard
 from src.kalaha.player import KalahaPlayer
 
